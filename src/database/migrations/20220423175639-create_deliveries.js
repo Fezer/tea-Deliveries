@@ -16,14 +16,23 @@ module.exports = {
       clientId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: { model: "Clients", key: "id"},
+        onUpdate: "RESTRICT",
+        onDelete: "RESTRICT",
       },
       motoboyId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: { model: "Motoboys", key: "id"},
+        onUpdate: "RESTRICT",
+        onDelete: "RESTRICT",
       },
       associateId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: { model: "Associates", key: "id"},
+        onUpdate: "RESTRICT",
+        onDelete: "RESTRICT",
       },
       status: {
         type: Sequelize.STRING,
