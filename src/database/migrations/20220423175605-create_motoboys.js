@@ -12,6 +12,9 @@ module.exports = {
       associateId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: { model: "Associate", key: "id"},
+        onUpdate: "RESTRICT",
+        onDelete: "RESTRICT",
       },
       name: {
         type: Sequelize.STRING,
@@ -43,11 +46,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
+    await queryInterface.dropTable("Motoboys");
+  },
 };
