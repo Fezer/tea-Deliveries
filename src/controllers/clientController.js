@@ -6,6 +6,24 @@ const sequelize = require("sequelize");
 
 module.exports = {
 
+    async createClient(req, res) {
+        
+    },
+    
+    async listAllClients(req, res) {
+        
+    },
 
+    async listClient(req, res) {
+        
+    },
+
+    async editClient(req, res) {
+        
+    },
+
+    async removeClient(req, res) {
+        
+    },
 
 };
