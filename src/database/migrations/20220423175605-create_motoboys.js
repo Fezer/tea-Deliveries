@@ -9,13 +9,6 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      associateId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: "Associate", key: "id"},
-        onUpdate: "RESTRICT",
-        onDelete: "RESTRICT",
-      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
