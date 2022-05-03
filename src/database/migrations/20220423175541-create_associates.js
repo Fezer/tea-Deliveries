@@ -15,6 +15,7 @@ module.exports = {
       },
       cnpj: {
         type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
       },
       password: {
