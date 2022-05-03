@@ -4,9 +4,8 @@ class Associate extends Sequelize.Model{
     static init(sequelize){
         super.init(
             {
-                id: Sequelize.INTEGER,
-                name: Sequelize.INTEGER,
-                cnpj: Sequelize.DATE,
+                name: Sequelize.STRING,
+                cnpj: Sequelize.STRING,
                 password: Sequelize.STRING,
                 address: Sequelize.STRING,
             },

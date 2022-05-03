@@ -4,7 +4,10 @@ class Motoboy extends Sequelize.Model{
     static init(sequelize){
         super.init(
             {
-
+                name: Sequelize.STRING,
+                cpf: Sequelize.STRING,
+                password: Sequelize.STRING,
+                phone: Sequelize.STRING,
             },
             {
                 sequelize,
@@ -12,7 +15,7 @@ class Motoboy extends Sequelize.Model{
         );
     }
     static associate(models){
-        
+        this.belongsTo(models.Delivery, { foreignKey: "motoboyId" });
     }
 }
 
