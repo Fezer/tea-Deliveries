@@ -9,10 +9,6 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       clientId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -34,12 +30,16 @@ module.exports = {
         onUpdate: "RESTRICT",
         onDelete: "RESTRICT",
       },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       value: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       createdAt: {

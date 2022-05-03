@@ -15,6 +15,7 @@ module.exports = {
       },
       cpf: {
         type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
       },
       password: {
