@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const dbConfig = require("./config/dbconfig");
+
 const Client = require("../models/Client");
 const Delivery = require("../models/Delivery");
 const Associate = require("../models/Associate");

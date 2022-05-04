@@ -15,7 +15,7 @@ class Motoboy extends Sequelize.Model{
         );
     }
     static associate(models){
-        this.belongsTo(models.Delivery, { foreignKey: "motoboyId" });
+        this.hasMany(models.Delivery, { foreignKey: "motoboyId" });
     }
 }
 
