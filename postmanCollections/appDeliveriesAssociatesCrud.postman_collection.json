@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "c94c9812-acbc-4eb0-aaa6-a493f1dfcee7",
+		"name": "appDeliveriesAssociatesCrud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "testServer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listAllAssociates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/associate/listAllAssociates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"listAllAssociates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAssociate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Novo Nome\",\r\n    \"cnpj\": \"Meu cnpj234\",\r\n    \"password\": \"12345678a\",\r\n    \"confirmPassword\": \"12345678a\",\r\n    \"address\": \"Rua que não te interessa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/associate/createAssociate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"createAssociate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listAssociate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Associado 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/associate/listAssociate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"listAssociate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editAssociate",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cnpj\":\"111\",\r\n    \"name\":\"Nome do infeliz\",\r\n    \"address\":\"Novo endereço desse associado\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/associate/editAssociate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"editAssociate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeAssociate",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cnpj\": \"222\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/associate/removeAssociate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"removeAssociate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePassword",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cnpj\": \"Meu cnpj234\",\r\n    \"oldPassword\": \"12345678a\",\r\n    \"password\": \"12345678c\",\r\n    \"confirmPassword\": \"12345678c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/associate/updatePassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"associate",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
