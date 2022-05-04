@@ -78,7 +78,6 @@ module.exports = {
             const clientId = req.params.id;
             const client = req.body;
 
-            console.log(clientId);
             if (!client.name && !client.cnpj && !client.address || !clientId) {
                 return res.status(422).json({ msg: "Parametros 'name', 'cnpj', 'address', 'id' são obrigatórios" });
             }
@@ -108,19 +107,16 @@ module.exports = {
             if (!clientId) {
                 return res.status(422).json({ msg: "Parametro 'id' são obrigatórios" });
             }
-            if (isNaN(clientId)) {
-                const clientExists = await Client.findByPk(clientId);
-                if (!clientExists) {
-                    return res.status(404).json({ msg: "Cliente não encontrado" });
-                } else {
-                    await Client.destroy({
-                        where: { id: clientId },
-                    });
-                    return res.status(200).json({ msg: "Cliente excluído com sucesso" });
-                }
+            const clientExists = await Client.findByPk(clientId);
+            if (!clientExists) {
+                return res.status(404).json({ msg: "Cliente não encontrado" });
             } else {
-                return res.status(500).json({ msg: "Não foi possível deletar o cliente" });
+                await Client.destroy({
+                    where: { id: clientId },
+                });
+                return res.status(200).json({ msg: "Cliente excluído com sucesso" });
             }
+
         } catch (error) {
             console.log(error);
             return res.status(500).json({ msg: "Não foi possível deletar o cliente" });

@@ -211,13 +211,7 @@ module.exports = {
 
   async updatePassword(req, res) {
     try {
-      const { cnpj, oldPassword, password, confirmPassword } = req.body;
-
-      if (!cnpj) {
-        return res.status(400).json({
-          msg: "É necessário informar o CNPJ do associado que se deseja editar.",
-        });
-      }
+      const {oldPassword, password, confirmPassword } = req.body;
 
       if (!oldPassword || !password || !confirmPassword) {
         return res
@@ -236,10 +230,10 @@ module.exports = {
         return res.status(400).json({ msg: passwordValid });
       }
 
-      const associate = await Associate.findOne({ where: { cnpj } });
+      const associate = await Associate.findByPk(req.associateId);
       if (!associate) {
         return res.status(404).json({
-          msg: "Não foi possível encontrar nenhum associado cadastrado com o CNPJ informado.",
+          msg: "Não foi possível encontrar nenhum associado",
         });
       }
 
@@ -248,14 +242,13 @@ module.exports = {
         await Associate.update(
           { password: hash },
           {
-            where: { cnpj },
+            where: { id: req.associateId },
           }
         );
         return res.status(200).json({
           msg: "Senha do associado atualizada com sucesso.",
           associate: {
             id: associate.id,
-            cnpj: associate.cnpj,
           },
         });
       } else {

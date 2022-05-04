@@ -131,7 +131,6 @@ module.exports = {
             const motoboyId = req.params.id;
             const motoboy = req.body;
 
-            console.log(motoboyId);
             if (!motoboy.name && !motoboy.cpf && !motoboy.phone || !motoboyId) {
                 return res.status(422).json({ msg: "Parametros 'name', 'cpf', 'phone', 'id' são obrigatórios" });
             }
