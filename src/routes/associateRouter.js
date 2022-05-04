@@ -8,5 +8,6 @@ associateRouter.get("/listAllAssociates", associateController.listAllAssociates)
 associateRouter.get("/listAssociate", associateController.listAssociate);
 associateRouter.put("/editAssociate", associateController.editAssociate);
 associateRouter.delete("/removeAssociate", associateController.removeAssociate);
+associateRouter.put("/updatePassword", associateController.updatePassword);
 
 module.exports = associateRouter;

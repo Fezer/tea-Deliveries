@@ -26,13 +26,13 @@ function hashPassword(password) {
 module.exports = {
   async createAssociate(req, res) {
     try {
-      const { name, cnpj, password, passwordConf, address } = req.body;
-      if (!name || !cnpj || !password || !passwordConf) {
+      const { name, cnpj, password, confirmPassword, address } = req.body;
+      if (!name || !cnpj || !password || !confirmPassword) {
         return res
           .status(404)
           .json({ msg: "Dados obrigatórios não foram preenchidos." });
       }
-      if (password != passwordConf) {
+      if (password != confirmPassword) {
         return res
           .status(404)
           .json({ msg: "A senha e validação da senha não conferem" });
@@ -56,14 +56,20 @@ module.exports = {
         const associate = await Associate.create({
           name,
           cnpj,
-          passwordConf: hash,
+          password: hash,
           address,
         });
 
         if (associate)
-          res
-            .status(201)
-            .json({ msg: "Novo associado cadastrado com sucesso!", associate });
+          res.status(201).json({
+            msg: "Novo associado cadastrado com sucesso!",
+            associate: {
+              id: associate.id,
+              name: associate.name,
+              cnpj: associate.cnpj,
+              address: associate.address,
+            },
+          });
         else
           res
             .status(404)
@@ -80,6 +86,7 @@ module.exports = {
   async listAllAssociates(req, res) {
     try {
       const associates = await Associate.findAll({
+        attributes: ["id", "name", "cnpj", "address", "createdAt", "updatedAt"],
         order: [["name", "ASC"]],
       });
       if (!associates || associates == undefined) {
@@ -106,6 +113,7 @@ module.exports = {
         });
 
       const associate = await Associate.findAll({
+        attributes: ["id", "name", "cnpj", "address", "createdAt", "updatedAt"],
         where: { name },
       });
       if (!associate || associate == undefined) {
@@ -140,7 +148,6 @@ module.exports = {
           msg: "É necessário informar o CNPJ do associado que se deseja editar.",
         });
       }
-
       if (!name) {
         return res
           .status(400)
@@ -158,9 +165,13 @@ module.exports = {
               where: { cnpj },
             }
           );
-          return res
-            .status(200)
-            .json({ msg: "Dados do associado atualizados com sucesso." });
+          return res.status(200).json({
+            msg: "Dados do associado atualizados com sucesso.",
+            associate: {
+              id: associate.id,
+              cnpj: associate.cnpj,
+            },
+          });
         }
       }
     } catch (error) {
@@ -171,5 +182,92 @@ module.exports = {
     }
   },
 
-  async removeAssociate(req, res) {},
+  async removeAssociate(req, res) {
+    try {
+      const cnpj = req.body.cnpj;
+      const associate = await Associate.findOne({ where: { cnpj } });
+      if (!associate) {
+        return res.status(404).json({
+          msg: "Não foi encontrado um associado relacionado ao CNPJ informado.",
+          cnpj,
+        });
+      } else {
+        await Associate.destroy({
+          where: { cnpj },
+        });
+        return res.status(200).json({
+          msg: "O associado foi excluído.",
+          atencao:
+            "Caso houvessem registros de entregas relacionadas ao associado, esses registros também foram excluídos.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        msg: "Isso é embaraçoso, mas ocorreu um erro inesperado no processamento da sua requisição :(",
+      });
+    }
+  },
+
+  async updatePassword(req, res) {
+    try {
+      const { cnpj, oldPassword, password, confirmPassword } = req.body;
+
+      if (!cnpj) {
+        return res.status(400).json({
+          msg: "É necessário informar o CNPJ do associado que se deseja editar.",
+        });
+      }
+
+      if (!oldPassword || !password || !confirmPassword) {
+        return res
+          .status(400)
+          .json({ msg: "É necessário informar a senha atual e a nova senha." });
+      }
+
+      if (password != confirmPassword) {
+        return res
+          .status(404)
+          .json({ msg: "A senha e validação da senha não conferem." });
+      }
+
+      const passwordValid = passwordValidation(password);
+      if (passwordValid != "OK") {
+        return res.status(400).json({ msg: passwordValid });
+      }
+
+      const associate = await Associate.findOne({ where: { cnpj } });
+      if (!associate) {
+        return res.status(404).json({
+          msg: "Não foi possível encontrar nenhum associado cadastrado com o CNPJ informado.",
+        });
+      }
+
+      if (bcrypt.compareSync(oldPassword, associate.password)) {
+        hash = hashPassword(password);
+        await Associate.update(
+          { password: hash },
+          {
+            where: { cnpj },
+          }
+        );
+        return res.status(200).json({
+          msg: "Senha do associado atualizada com sucesso.",
+          associate: {
+            id: associate.id,
+            cnpj: associate.cnpj,
+          },
+        });
+      } else {
+        return res
+          .status(400)
+          .json({ msg: "A senha atual informada não confere com a senha atualmente cadastrada." });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        msg: "Isso é embaraçoso, mas ocorreu um erro inesperado no processamento da sua requisição :(",
+      });
+    }
+  },
 };
