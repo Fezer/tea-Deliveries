@@ -50,13 +50,14 @@ module.exports = {
 
     async editClient(req, res) {
         try {
-            const clientId = req.body.id;
+            const clientId = req.params.id;
             const client = req.body;
 
-            if (!client.name && !client.cnpj && !client.address) {
-                return res.status(422).json({ msg: "Parametros 'name', 'cnpj', 'address' são obrigatórios" });
+            console.log(clientId);
+            if (!client.name && !client.cnpj && !client.address && !clientId) {
+                return res.status(422).json({ msg: "Parametros 'name', 'cnpj', 'address', 'clientId' são obrigatórios" });
             }
-            if (client.name?.isNAN() || client.cnpj?.isNAN() || clientaddress?.isNAN()) {
+            if (isNaN(client.name) || isNaN(client.cnpj) || isNaN(client.address)) {
                 const clientExists = await Client.findByPk(clientId);
                 if (!clientExists) {
                     return res.status(404).json({ msg: "Cliente não encontrado." });
@@ -76,7 +77,29 @@ module.exports = {
     },
 
     async removeClient(req, res) {
+        try {
+            const clientId = req.body.id;
 
+            if (!clientId) {
+                return res.status(422).json({ msg: "Parametro 'clientId' são obrigatórios" });
+            }
+            if (!inNaN(clientId)) {
+                const clientExists = await Client.findByPk(clientId);
+                if (!clientExists) {
+                    return res.status(404).json({ msg: "Cliente não encontrado." });
+                } else {
+                    await Client.destroy({
+                        where: { id: clientId },
+                    });
+                    return res.status(200).json({ msg: "Cliente excluído com sucesso." });
+                }
+            } else {
+                return res.status(500).json({ msg: "Não foi possível deletar o cliente" });
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ msg: "Não foi possível deletar o cliente" });
+        }
     },
 
 };
