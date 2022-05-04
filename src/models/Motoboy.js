@@ -3,7 +3,12 @@ const Sequelize = require("sequelize");
 class Motoboy extends Sequelize.Model{
     static init(sequelize){
         super.init(
-            {
+            {   
+                id:{
+                    type: Sequelize.UUID,
+                    defaultValue: Sequelize.UUIDV1,
+                    primaryKey: true
+                },
                 name: Sequelize.STRING,
                 cpf: Sequelize.STRING,
                 password: Sequelize.STRING,

@@ -4,6 +4,11 @@ class Delivery extends Sequelize.Model{
     static init(sequelize){
         super.init(
             {
+                id:{
+                    type: Sequelize.UUID,
+                    defaultValue: Sequelize.UUIDV1,
+                    primaryKey: true
+                },
                 associateId: Sequelize.INTEGER,
                 clientId: Sequelize.INTEGER,
                 motoboyId: Sequelize.INTEGER,
