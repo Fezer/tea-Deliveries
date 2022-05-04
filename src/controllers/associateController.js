@@ -26,13 +26,13 @@ function hashPassword(password) {
 module.exports = {
   async createAssociate(req, res) {
     try {
-      const { name, cnpj, password, passwordConf, address } = req.body;
-      if (!name || !cnpj || !password || !passwordConf) {
+      const { name, cnpj, password, confirmPassword, address } = req.body;
+      if (!name || !cnpj || !password || !confirmPassword) {
         return res
           .status(404)
           .json({ msg: "Dados obrigatórios não foram preenchidos." });
       }
-      if (password != passwordConf) {
+      if (password != confirmPassword) {
         return res
           .status(404)
           .json({ msg: "A senha e validação da senha não conferem" });
@@ -56,14 +56,20 @@ module.exports = {
         const associate = await Associate.create({
           name,
           cnpj,
-          passwordConf: hash,
+          password: hash,
           address,
         });
 
         if (associate)
-          res
-            .status(201)
-            .json({ msg: "Novo associado cadastrado com sucesso!", associate });
+          res.status(201).json({
+            msg: "Novo associado cadastrado com sucesso!",
+            associate: {
+              id: associate.id,
+              name: associate.name,
+              cnpj: associate.cnpj,
+              address: associate.address,
+            },
+          });
         else
           res
             .status(404)
@@ -80,7 +86,7 @@ module.exports = {
   async listAllAssociates(req, res) {
     try {
       const associates = await Associate.findAll({
-        attributes: [ "id", "name", "cnpj", "address", "createdAt", "updatedAt" ],
+        attributes: ["id", "name", "cnpj", "address", "createdAt", "updatedAt"],
         order: [["name", "ASC"]],
       });
       if (!associates || associates == undefined) {
@@ -107,6 +113,7 @@ module.exports = {
         });
 
       const associate = await Associate.findAll({
+        attributes: ["id", "name", "cnpj", "address", "createdAt", "updatedAt"],
         where: { name },
       });
       if (!associate || associate == undefined) {
@@ -141,7 +148,6 @@ module.exports = {
           msg: "É necessário informar o CNPJ do associado que se deseja editar.",
         });
       }
-
       if (!name) {
         return res
           .status(400)
@@ -159,9 +165,13 @@ module.exports = {
               where: { cnpj },
             }
           );
-          return res
-            .status(200)
-            .json({ msg: "Dados do associado atualizados com sucesso." });
+          return res.status(200).json({
+            msg: "Dados do associado atualizados com sucesso.",
+            associate: {
+              id: associate.id,
+              cnpj: associate.cnpj,
+            },
+          });
         }
       }
     } catch (error) {
