@@ -15,22 +15,22 @@ module.exports = {
             }
 
             if (isNaN(name) && isNaN(address)) {
-                // const isNewClient = await Client.findOne({
-                //     where: { cnpj},
-                // });
-                // if (isNewClient) {
-                //     return res.status(403).json({ msg: "Cliente já foi cadastrado" });
-                // } else {
-                const client = await Client.create({
-                    name,
-                    cnpj,
-                    address,
+                const isNewClient = await Client.findOne({
+                    where: { cnpj },
                 });
-                if (client)
-                    return res.status(200).json({ msg: "Novo cliente foi adicionado" });
-                else
-                    return res.status(404).json({ msg: "Não foi possível cadastrar novo cliente" });
-
+                if (isNewClient) {
+                    return res.status(403).json({ msg: "Cliente já foi cadastrado" });
+                } else {
+                    const client = await Client.create({
+                        name,
+                        cnpj,
+                        address,
+                    });
+                    if (client)
+                        return res.status(200).json({ msg: "Novo cliente foi adicionado" });
+                    else
+                        return res.status(404).json({ msg: "Não foi possível cadastrar novo cliente" });
+                }
             } else {
                 return res.status(422).json({ msg: "Tipos inválidos" });
             }
