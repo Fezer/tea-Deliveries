@@ -80,6 +80,7 @@ module.exports = {
   async listAllAssociates(req, res) {
     try {
       const associates = await Associate.findAll({
+        attributes: [ "id", "name", "cnpj", "address", "createdAt", "updatedAt" ],
         order: [["name", "ASC"]],
       });
       if (!associates || associates == undefined) {
