@@ -4,6 +4,9 @@ class Delivery extends Sequelize.Model{
     static init(sequelize){
         super.init(
             {
+                associateId: Sequelize.INTEGER,
+                clientId: Sequelize.INTEGER,
+                motoboyId: Sequelize.INTEGER,
                 description: Sequelize.STRING,
                 status: Sequelize.STRING,
                 value: Sequelize.FLOAT,
@@ -14,9 +17,9 @@ class Delivery extends Sequelize.Model{
         );
     }
     static associate(models){
-        this.hasMany(models.Associate, { foreignKey: "associateId"});
-        this.hasMany(models.Client, { foreignKey: "clientId"});
-        this.hasMany(models.Motoboy, { foreignKey: "motoboyId"});
+        this.belongsTo(models.Associate, { foreignKey: "associateId"});
+        this.belongsTo(models.Client, { foreignKey: "clientId"});
+        this.belongsTo(models.Motoboy, { foreignKey: "motoboyId"});
     }
 }
 
