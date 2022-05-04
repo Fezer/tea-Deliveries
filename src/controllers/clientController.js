@@ -108,7 +108,7 @@ module.exports = {
             if (!clientId) {
                 return res.status(422).json({ msg: "Parametro 'id' são obrigatórios" });
             }
-            if (!isNaN(clientId)) {
+            if (isNaN(clientId)) {
                 const clientExists = await Client.findByPk(clientId);
                 if (!clientExists) {
                     return res.status(404).json({ msg: "Cliente não encontrado" });
