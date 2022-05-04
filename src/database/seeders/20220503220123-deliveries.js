@@ -4,7 +4,7 @@ module.exports = {
       "Deliveries",
       [
         {
-          id:10,
+          id: 10,
           clientId: 1,
           motoboyId: 4,
           associateId: 7,
@@ -13,7 +13,7 @@ module.exports = {
           value: 0.0, //Premissa: toda a entrega nasce com o valor zerado
         },
         {
-          id:11,
+          id: 11,
           clientId: 1,
           motoboyId: 5,
           associateId: 8,
@@ -21,7 +21,8 @@ module.exports = {
           status: "Criada", //Premissa: toda a entrega nasce com o status "criada"
           value: 0.0, //Premissa: toda a entrega nasce com o valor zerado
         },
-        {id:12,
+        {
+          id: 12,
           clientId: 1,
           motoboyId: 6,
           associateId: 8,
@@ -29,7 +30,8 @@ module.exports = {
           status: "Criada", //Premissa: toda a entrega nasce com o status "criada"
           value: 0.0, //Premissa: toda a entrega nasce com o valor zerado
         },
-        {id:13,
+        {
+          id: 13,
           clientId: 2,
           motoboyId: 6,
           associateId: 8,
@@ -37,7 +39,8 @@ module.exports = {
           status: "Criada", //Premissa: toda a entrega nasce com o status "criada"
           value: 0.0, //Premissa: toda a entrega nasce com o valor zerado
         },
-        {id:14,
+        {
+          id: 14,
           clientId: 3,
           motoboyId: 4,
           associateId: 9,
@@ -45,7 +48,8 @@ module.exports = {
           status: "Criada", //Premissa: toda a entrega nasce com o status "criada"
           value: 0.0, //Premissa: toda a entrega nasce com o valor zerado
         },
-        {id:15,
+        {
+          id: 15,
           clientId: 3,
           motoboyId: 5,
           associateId: 7,
